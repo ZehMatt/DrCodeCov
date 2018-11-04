@@ -6,8 +6,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="coverage.h" />
+    <ClInclude Include="formats\format_base.h">
+      <Filter>formats</Filter>
+    </ClInclude>
+    <ClInclude Include="formats\format_bin.h">
+      <Filter>formats</Filter>
+    </ClInclude>
+    <ClInclude Include="formats\format_idc.h">
+      <Filter>formats</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="modules.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="formats">
+      <UniqueIdentifier>{08a1465e-bba1-42a0-a165-923eff74d3c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

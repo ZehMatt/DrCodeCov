@@ -1,7 +1,8 @@
 #include "modules.h"
 #include "coverage.h"
+#include "formats/format_bin.h"
+#include "formats/format_idc.h"
 
-#include <array>
 #include <vector>
 #include <algorithm>
 
@@ -158,91 +159,21 @@ void module_remove(void *drcontext, const module_data_t *info)
     modules_unlock();
 }
 
-void modules_dump_idc(file_t f, const ModuleEntry_t& mod)
+void modules_dump(const std::string& format)
 {
-    dr_fprintf(f, "#include <ida.idc>\n"
-        "static main() {\n");
-#ifdef _WIN64
-    dr_fprintf(f, "\tauto imageBase = 0x%.16llX;\n", (void*)mod.imageStart);
-#else
-    dr_fprintf(f, "\tauto imageBase = 0x%08X;\n", (void*)mod.imageStart);
-#endif
-    size_t reps = 0;
-    for (size_t n = 0; n < mod.getImageSize(); n++)
+    if (format == "bin")
     {
-        if (mod.coverage[n].flags & Coverage_t::BRANCH)
-        {
-            uint32_t rva = (uint32_t)(n);
-            dr_fprintf(f, "\tMakeCode(imageBase+0x%08X);\n", rva);
-        }
+        OutputFormatBinary out;
+        out.createOutput(_modules);
     }
-    dr_fprintf(f, "}\n");
-}
-
-void modules_dump_binary_cov(file_t f, const ModuleEntry_t& mod)
-{
-    CoverageHeader_t header;
-    header.magic = CoverageHeader_t::k_Magic;
-    header.imageStart = (uint64_t)mod.imageStart;
-    header.imageEnd = (uint64_t)mod.imageEnd;
-    header.size = (uint32_t)(mod.getImageSize() * sizeof(Coverage_t));
-
-    dr_write_file(f, &header, sizeof(header));
-
-    dr_write_file(f, mod.coverage, header.size);
-}
-
-void modules_dump()
-{
-    uint32_t pid = (uint32_t)dr_get_process_id();
-    uint64_t secs = (dr_get_milliseconds() / 1000);
-
-    char curDir[1024] = {};
-    dr_get_current_directory(curDir, 1024);
-
-    char outPath[1024] = {};
-    dr_snprintf(outPath, 1024, "%s\\coverage.%08X", curDir, pid);
-
-    dr_create_dir(outPath);
-
-    char outFile[1024] = {};
-    char modNameStripped[1024];
-
-    for (auto& mod : _modules)
+    else if (format == "idc")
     {
-        dr_snprintf(modNameStripped, 1024, "%s", mod.data->full_path);
-
-        // Sanitize slashes
-        for (auto& c : modNameStripped)
-        {
-            if(c == '/')
-                c = '\\';
-        }
-
-        const char *modName = strrchr(modNameStripped, '\\');
-        if (modName)
-        {
-            dr_snprintf(modNameStripped, 1024, "%s", modName + 1);
-        }
-        else
-        {
-            dr_snprintf(modNameStripped, 1024, "%s", mod.data->full_path);
-        }
-
-        dr_snprintf(outFile, 1024, "%s\\%s_%08X.cov", outPath, modNameStripped, secs);
-
-        file_t f = dr_open_file(outFile, DR_FILE_WRITE_REQUIRE_NEW);
-        if (f == INVALID_FILE)
-        {
-            dr_messagebox("Unable to open file for writing: %s", outFile);
-            continue;
-        }
-
-        //modules_dump_idc(f, mod);
-        modules_dump_binary_cov(f, mod);
-
-        dr_close_file(f);
+        OutputFormatIDC out;
+        out.createOutput(_modules);
     }
-
+    else if (format == "drcov")
+    {
+        // TODO: Implement me.
+    }
 }
 
