@@ -107,6 +107,12 @@ private:
     }
 
 public:
+    static OutputFormatBase* instance()
+    {
+        static OutputFormatDrCov fmt;
+        return &fmt;
+    }
+
     virtual bool createOutput(const std::vector<ModuleEntry_t>& modules) override
     {
         char outFile[1024] = {};

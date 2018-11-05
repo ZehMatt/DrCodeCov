@@ -160,22 +160,27 @@ void module_remove(void *drcontext, const module_data_t *info)
     modules_unlock();
 }
 
-void modules_dump(const std::string& format)
+void modules_dump(const std::string& format, const std::string& outputDir)
 {
+    OutputFormatBase* fmtOut = nullptr;
+
     if (format == "bin")
     {
-        OutputFormatBinary out;
-        out.createOutput(_modules);
+        fmtOut = OutputFormatBinary::instance();
     }
     else if (format == "idc")
     {
-        OutputFormatIDC out;
-        out.createOutput(_modules);
+        fmtOut = OutputFormatIDC::instance();
     }
     else if (format == "drcov")
     {
-        OutputFormatDrCov out;
-        out.createOutput(_modules);
+        fmtOut = OutputFormatDrCov::instance();
     }
+
+    if(!fmtOut)
+        return;
+
+    fmtOut->setOutputDirectory(outputDir);
+    fmtOut->createOutput(_modules);
 }
 

@@ -11,6 +11,8 @@ struct CoverageHeader_t
     uint32_t size;
     uint64_t imageStart;
     uint64_t imageEnd;
+    uint32_t timestamp;
+    uint32_t checksum;
 };
 
 struct Coverage_t

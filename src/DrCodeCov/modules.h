@@ -32,4 +32,4 @@ void modules_add(void *drcontext, const module_data_t *info, bool loaded);
 void module_remove(void *drcontext, const module_data_t *info);
 
 void modules_tag_instr(void *drcontext, app_pc va, int len, bool isBranch);
-void modules_dump(const std::string& format);
+void modules_dump(const std::string& format, const std::string& outputDir);

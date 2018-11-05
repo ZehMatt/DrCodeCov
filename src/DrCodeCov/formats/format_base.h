@@ -11,18 +11,19 @@ struct ModuleEntry_t;
 
 class OutputFormatBase
 {
-protected:
-    std::string getOutputDirectory() const
+private:
+    std::string _outputDirectory;
+
+public:
+    void setOutputDirectory(const std::string& outputDir)
     {
-        uint32_t pid = (uint32_t)dr_get_process_id();
+        _outputDirectory = outputDir;
+    }
 
-        char curDir[1024] = {};
-        dr_get_current_directory(curDir, 1024);
-
-        char outPath[1024] = {};
-        dr_snprintf(outPath, 1024, "%s\\coverage.%08X", curDir, pid);
-
-        return outPath;
+protected:
+    const std::string& getOutputDirectory() const
+    {
+        return _outputDirectory;
     }
 
     std::string getModuleFileName(const char *fullPath) const

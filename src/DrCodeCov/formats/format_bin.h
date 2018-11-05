@@ -13,13 +13,30 @@ private:
         header.magic = CoverageHeader_t::k_Magic;
         header.imageStart = (uint64_t)mod.imageStart;
         header.imageEnd = (uint64_t)mod.imageEnd;
+#ifdef WINDOWS
+        header.checksum = mod.data->checksum;
+        header.timestamp = mod.data->timestamp;
+#else
+        // FIXME: Use something else to identify the binary.
+        header.checksum = 0x1c1c1c1c;
+        header.timestamp = 0x2c2c2c2c;
+#endif
         header.size = (uint32_t)(mod.getImageSize() * sizeof(Coverage_t));
 
+        // Write header.
         dr_write_file(f, &header, sizeof(header));
+
+        // Write bitmap.
         dr_write_file(f, mod.coverage, header.size);
     }
 
 public:
+    static OutputFormatBase* instance()
+    {
+        static OutputFormatBinary fmt;
+        return &fmt;
+    }
+
     virtual bool createOutput(const std::vector<ModuleEntry_t>& modules) override
     {
         char outFile[1024] = {};
