@@ -7,10 +7,11 @@ Its slightly different from DynamoRIO's drcov in terms of data. DrCodeCov will c
 - Is instruction part.
 - Is branch.
 - Unreached.
+
 DrCodeCov will not count hits, this is something I did not need. You can identify which code is executed or if code jumps into parts of instruction operands, this is common in obfuscated code.
 
 # DrCov format.
-DrCodeCov can output the same format as drcov, specify this via the client option "-format drcov". We however suggest using the binary format for extended details.
+DrCodeCov can output the same format as drcov, specify this via the client option "-format drcov". We however suggest using the binary format for extended details. You will be also able to feed the drcov format directly to Lighthouse, see https://github.com/gaasedelen/lighthouse for more details.
 
 # Building
 The project currently comes with a Visual Studio 2017 project. Make sure you have set environment variable DYNAMORIO_HOME to your DynamoRIO directory. Open the project in Visual Studio and choose your desired configuration to build. 
