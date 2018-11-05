@@ -9,6 +9,12 @@ static droption_t<std::string> op_format(DROPTION_SCOPE_CLIENT,
     "Output Format",
     "Possible options: bin <default>, idc, drcov");
 
+static droption_t<std::string> op_outputDir(DROPTION_SCOPE_CLIENT,
+    "output_dir",
+    "",
+    "Output Directory",
+    "If empty it will use the current directory");
+
 static void event_module_load(void *drcontext, const module_data_t *info, bool loaded)
 {
     modules_add(drcontext, info, loaded);
@@ -25,7 +31,23 @@ static void event_exit(void)
     if (fmt.empty())
         fmt = "bin";
 
-    modules_dump(fmt);
+    std::string outputDirectory = op_outputDir.get_value();
+    if (outputDirectory.empty())
+    {
+        uint32_t pid = (uint32_t)dr_get_process_id();
+
+        char curDir[1024] = {};
+        dr_get_current_directory(curDir, 1024);
+
+        char outPath[1024] = {};
+        dr_snprintf(outPath, 1024, "%s\\coverage.%08X", curDir, pid);
+
+        dr_create_dir(outPath);
+
+        outputDirectory = outPath;
+    }
+
+    modules_dump(fmt, outputDirectory);
     modules_cleanup();
     drmgr_exit();
 }
