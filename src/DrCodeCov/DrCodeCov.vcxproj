@@ -29,6 +29,7 @@
     <ClInclude Include="coverage.h" />
     <ClInclude Include="formats\format_base.h" />
     <ClInclude Include="formats\format_bin.h" />
+    <ClInclude Include="formats\format_drcov.h" />
     <ClInclude Include="formats\format_idc.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
