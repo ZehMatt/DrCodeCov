@@ -29,10 +29,9 @@ private:
     }
 
 public:
-    static OutputFormatBase* instance()
+    virtual const char* name() const override
     {
-        static OutputFormatIDC fmt;
-        return &fmt;
+        return "idc";
     }
 
     virtual bool createOutput(const std::vector<ModuleEntry_t>& modules) override

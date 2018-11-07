@@ -31,10 +31,9 @@ private:
     }
 
 public:
-    static OutputFormatBase* instance()
+    virtual const char* name() const override
     {
-        static OutputFormatBinary fmt;
-        return &fmt;
+        return "bin";
     }
 
     virtual bool createOutput(const std::vector<ModuleEntry_t>& modules) override

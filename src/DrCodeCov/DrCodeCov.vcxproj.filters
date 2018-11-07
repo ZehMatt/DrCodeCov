@@ -3,6 +3,9 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="modules.cpp" />
+    <ClCompile Include="formats\formats.cpp">
+      <Filter>formats</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="coverage.h" />
@@ -16,6 +19,9 @@
       <Filter>formats</Filter>
     </ClInclude>
     <ClInclude Include="formats\format_drcov.h">
+      <Filter>formats</Filter>
+    </ClInclude>
+    <ClInclude Include="formats\formats.h">
       <Filter>formats</Filter>
     </ClInclude>
   </ItemGroup>

@@ -20,6 +20,8 @@ public:
         _outputDirectory = outputDir;
     }
 
+    virtual const char* name() const = 0;
+
 protected:
     const std::string& getOutputDirectory() const
     {

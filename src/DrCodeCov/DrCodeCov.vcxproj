@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="formats\formats.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="modules.cpp" />
   </ItemGroup>
@@ -27,6 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="coverage.h" />
+    <ClInclude Include="formats\formats.h" />
     <ClInclude Include="formats\format_base.h" />
     <ClInclude Include="formats\format_bin.h" />
     <ClInclude Include="formats\format_drcov.h" />

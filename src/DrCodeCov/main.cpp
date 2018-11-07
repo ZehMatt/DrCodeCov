@@ -2,6 +2,7 @@
 #include "drmgr.h"
 #include "modules.h"
 #include "droption.h"
+#include "formats/formats.h"
 
 static droption_t<std::string> op_format(DROPTION_SCOPE_CLIENT, 
     "format", 
@@ -49,6 +50,8 @@ static void event_exit(void)
 
     modules_dump(fmt, outputDirectory);
     modules_cleanup();
+    output_formats_cleanup();
+
     drmgr_exit();
 }
 
@@ -106,5 +109,6 @@ DR_EXPORT void dr_client_main(client_id_t id, int argc, const char *argv[])
     }
 
     modules_init();
+    output_formats_init();
 }
 

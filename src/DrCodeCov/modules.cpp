@@ -1,8 +1,6 @@
 #include "modules.h"
 #include "coverage.h"
-#include "formats/format_bin.h"
-#include "formats/format_idc.h"
-#include "formats/format_drcov.h"
+#include "formats/formats.h"
 
 #include <vector>
 #include <algorithm>
@@ -162,23 +160,13 @@ void module_remove(void *drcontext, const module_data_t *info)
 
 void modules_dump(const std::string& format, const std::string& outputDir)
 {
-    OutputFormatBase* fmtOut = nullptr;
+    OutputFormatBase* fmtOut = output_format_find(format.c_str());
 
-    if (format == "bin")
+    if (!fmtOut)
     {
-        fmtOut = OutputFormatBinary::instance();
-    }
-    else if (format == "idc")
-    {
-        fmtOut = OutputFormatIDC::instance();
-    }
-    else if (format == "drcov")
-    {
-        fmtOut = OutputFormatDrCov::instance();
-    }
-
-    if(!fmtOut)
+        dr_messagebox("Invalid output format selected: %s", format.c_str());
         return;
+    }
 
     fmtOut->setOutputDirectory(outputDir);
     fmtOut->createOutput(_modules);

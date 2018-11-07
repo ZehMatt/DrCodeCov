@@ -107,10 +107,9 @@ private:
     }
 
 public:
-    static OutputFormatBase* instance()
+    virtual const char* name() const override
     {
-        static OutputFormatDrCov fmt;
-        return &fmt;
+        return "drcov";
     }
 
     virtual bool createOutput(const std::vector<ModuleEntry_t>& modules) override
