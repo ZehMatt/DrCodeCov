@@ -76,7 +76,7 @@ static ModuleEntry_t* module_find_by_data(const module_data_t *data, bool requir
     return nullptr;
 }
 
-void modules_tag_instr(void *drcontext, app_pc va, int len, bool isBranch)
+void modules_tag_instr(void *drcontext, app_pc va, int len, bool isBranch, bool isBranchEnd)
 {
     modules_lock();
 
@@ -92,7 +92,9 @@ void modules_tag_instr(void *drcontext, app_pc va, int len, bool isBranch)
     mod->coverage[offset].flags |= Coverage_t::INSTR_START;
 
     if(isBranch)
-        mod->coverage[offset].flags |= Coverage_t::BRANCH;
+        mod->coverage[offset].flags |= Coverage_t::BRANCH_START;
+    if(isBranchEnd)
+        mod->coverage[offset].flags |= Coverage_t::BRANCH_END;
 
     for (int i = 1; i < len; i++)
     {

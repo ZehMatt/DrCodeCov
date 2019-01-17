@@ -22,7 +22,8 @@ struct Coverage_t
         UNREACHED = 0,                      // Unreached.
         INSTR_START = (1 << 0),             // Begin of instruction
         INSTR_PART = (1 << 1),              // Part of instruction.
-        BRANCH = (1 << 2),                  // Branch starts with this instructions.
+        BRANCH_START = (1 << 2),            // Branch starts with this instructions.
+        BRANCH_END = (1 << 3),              // Branch ends with this instructions.
     };
     uint8_t flags;
 };

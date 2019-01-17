@@ -52,7 +52,7 @@ private:
         size_t maxIterations = arraySize - index;
         for (size_t i = 1; i < maxIterations; i++, size++)
         {
-            if (coverageArray[index + i].flags & Coverage_t::BRANCH ||
+            if (coverageArray[index + i].flags & Coverage_t::BRANCH_END ||
                 coverageArray[index + i].flags == Coverage_t::UNREACHED)
             {
                 break;
@@ -77,7 +77,7 @@ private:
                 bbl.start = 0;
                 bbl.size = 0;
 
-                if (mod.coverage[n].flags & Coverage_t::BRANCH)
+                if (mod.coverage[n].flags & Coverage_t::BRANCH_START)
                 {
                     bbl.id = modId;                // Module Id
                     bbl.start = (uint32_t)(n);     // RVA

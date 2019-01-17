@@ -60,12 +60,12 @@ static dr_emit_flags_t event_app_instruction(void *drcontext, void *tag, instrli
     if (!instr_is_app(instr))
         return DR_EMIT_DEFAULT;
 
-    bool isBranch = drmgr_is_first_instr(drcontext, instr);
+    const bool isBranch = drmgr_is_first_instr(drcontext, instr);
+    const bool isBranchEnd = drmgr_is_last_instr(drcontext, instr);
+    const int instrLength = instr_length(drcontext, instr);
+    const app_pc va = instr_get_app_pc(instr);
 
-    int instrLength = instr_length(drcontext, instr);
-    app_pc va = instr_get_app_pc(instr);
-
-    modules_tag_instr(drcontext, va, instrLength, isBranch);
+    modules_tag_instr(drcontext, va, instrLength, isBranch, isBranchEnd);
 
     return DR_EMIT_DEFAULT;
 }

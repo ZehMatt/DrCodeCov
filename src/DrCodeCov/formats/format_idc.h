@@ -19,7 +19,7 @@ private:
         size_t reps = 0;
         for (size_t n = 0; n < mod.getImageSize(); n++)
         {
-            if (mod.coverage[n].flags & Coverage_t::BRANCH)
+            if (mod.coverage[n].flags & Coverage_t::BRANCH_START)
             {
                 uint32_t rva = (uint32_t)(n);
                 dr_fprintf(f, "\tMakeCode(imageBase+0x%08X);\n", rva);
